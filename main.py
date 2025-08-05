@@ -2,7 +2,7 @@
 import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import genai as genai
+from google import genai
 from dotenv import load_dotenv
 
 # Cargar variables de entorno desde el archivo .env
@@ -11,11 +11,8 @@ load_dotenv()
 
 # Configurar la API de Google
 # Asegúrate de que la variable GOOGLE_API_KEY esté en tu archivo .env
-api_key = os.getenv("GOOGLE_API_KEY")
-if not api_key:
-    raise ValueError("No se encontró la GOOGLE_API_KEY en el entorno.")
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-genai.configure(api_key=api_key)
 
 # Inicializar la aplicación FastAPI
 app = FastAPI()
@@ -38,12 +35,10 @@ async def ask_google(request: PromptRequest):
     try:
         print(f"Recibido prompt para Google AI: '{request.prompt}'")
         
-        # Seleccionar el modelo
-        model = genai.GenerativeModel('gemini-2.5-flash')
-        
-        # Generar contenido
-        response = model.generate_content(request.prompt)
-        
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=request.prompt,
+        )                
         print(f"Respuesta de Google AI: '{response.text}'")
         
         # Devolver la respuesta en un formato JSON claro
