@@ -72,7 +72,7 @@ async def analyze_conversation(request: PromptRequest):
     try:
         print("Enviando prompt a Gemini para análisis...")
         
-        response = client.generate_content(
+        response = client.models.generate_content(
             model="gemini-2.5-flash-lite",
             contents=system_prompt,
         )
