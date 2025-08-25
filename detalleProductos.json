@@ -1,0 +1,13 @@
+{
+    "Canastita":{
+        "descripcion":"Masa rellena, similar a las empanadas pero abiertas arriba.",
+        "imagen":"https://example.com/images/canastita.jpg",
+        "sabores":{
+            "Napolitana":"Tomate triturado, queso, orégano, ajo.",
+            "Choclo":"Crema de maíz, queso y cebolla.",
+            "Capresse":"Tomate, mozzarella y albahaca.",
+            "Fugazzetta":"Cebolla y queso."
+        }
+        
+    }
+}

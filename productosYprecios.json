@@ -1,0 +1,20 @@
+{
+    "Moneda":{"nombre":"guaranies", "simbolo":"Gs."},
+    "Combo Premium":180000,
+    "Combo Economico":135000,
+    "Mini Buger":2500,
+    "Sandwich de Milanesa de Pollo":2500,
+    "Canastita":1800,
+    "Empanaditas de carne":2200,
+    "Empanaditas de pollo":1800,
+    "Empanaditas de jamon y queso":1800,
+    "Pizeta":1200,
+    "Sandwich de Jamon y Queso":3000,
+    "Croquetas": 1500,
+    "Milanesa de Pollo": 1200,
+    "Milanesa de Carne": 1800,
+    "Gaseosa 2 litros":17000,
+    "Gaseosa 3 litros":22000,
+    "Jugo 1.5 litros":15000
+
+}
