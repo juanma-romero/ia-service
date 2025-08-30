@@ -32,6 +32,7 @@ async def analyze_conversation(request: PromptRequest):
     - "Resuelto": Usa este estado si el pedido fue entregado, pagado y la conversación ha concluido amigablemente.
     - "Estancado/Inactivo": Usa este estado si el administrador preguntó algo pero el cliente no ha respondido en un tiempo considerable (basado en los timestamps).
     - "Sin Contestar": Usa este estado ÚNICAMENTE si la conversación consiste en un único mensaje inicial del cliente que aún no ha sido respondido por el administrador.
+    - "Pedido Creado": Este estado solo es determinado por el backend, nunca lo determines tu (solo te informo que existe).
 
     **Formato de Respuesta Obligatorio:**
     Debes responder ÚNICAMENTE con un objeto JSON válido, sin texto adicional antes o después.

@@ -21,7 +21,7 @@ async def analyze_order(request: PromptRequest):
     con la frase "Entonces te agendo:".
     - Si no encuentras la frase o el formato no es claro, no extraigas nada y devuelve una respuesta vacía o con un indicador de "no_pedido".
     - Si la detectas, debes extraer la siguiente información:
-    1.  **Día y Hora:** Busca la fecha y la hora de entrega. Ejemplo: "Jueves a las 15hs".
+    1.  **Día y Hora:** Teniendo en cuenta la fecha y hora actual suministrada junto con el historial de mensajes, analiza la conversación para determinar la fecha y hora de entrega deseadas. Tu tarea es convertir términos relativos como "hoy", "mañana" o "el jueves" en una fecha absoluta y estructurada. El resultado final DEBE ESTAR en el formato estricto del tipo Date de MongoDB.
     2.  **Productos y Cantidades:** Identifica los productos y la cantidad solicitada para cada uno. Ejemplo: "1 combo Premium".
     3.  **Monto Total:** Extrae el monto total del pedido. Ejemplo: "335 mil gs".
 
