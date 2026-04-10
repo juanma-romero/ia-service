@@ -9,5 +9,48 @@
             "Fugazzetta":"Cebolla y queso."
         }
         
+    },
+    "Croqueta":{
+        "descripcion":"Masa rellena con diferentes sabores.",
+        "imagen":"https://example.com/images/croq.jpg",
+        "sabores":[
+            "Salchicha forrada",
+            "Bolita de Queso",
+            "Calabreza",
+            "Coixinha"]
+    },
+    "Pizeta":{
+        "descripcion":"Pizeta tamanio bocadito.",
+        "imagen":"https://example.com/images/pizeta.jpg",
+        "sabores":[
+            "Queso",
+            "Jamon y Queso"]
+    },
+    "Sandwich de Jamon y Queso":{
+        "descripcion":"Pizeta tamanio bocadito.",
+        "imagen":"https://example.com/images/pizeta.jpg",
+        "sabores":[
+            "Queso",
+            "Jamon y Queso"]
+    },
+    "Mini Burger":{
+        "descripcion":"Pizeta tamanio bocadito.",
+        "imagen":"https://example.com/images/pizeta.jpg",
+        "sabores":[
+            "Queso",
+            "Jamon y Queso"]
+    },
+    "Empanadita de Pollo":{
+        "descripcion":"Pizeta tamanio bocadito.",
+        "imagen":"https://example.com/images/pizeta.jpg"
+    },
+    "Empanadita de Jamon y Queso":{
+        "descripcion":"Pizeta tamanio bocadito.",
+        "imagen":"https://example.com/images/pizeta.jpg"
+    },
+    "Empanadita de Carne":{
+        "descripcion":"Pizeta tamanio bocadito.",
+        "imagen":"https://example.com/images/pizeta.jpg"
     }
+        
 }
