@@ -1,0 +1,82 @@
+[
+  {
+    "item_code": "empaPollo",
+    "description": "Empanadita de Pollo"
+  },
+  {
+    "item_code": "milaPollo",
+    "description": "Milanesa de Pollo"
+  },
+  {
+    "item_code": "pizeta",
+    "description": "Pizeta"
+  },
+  {
+    "item_code": "mini",
+    "description": "Mini Burger"
+  },
+  {
+    "item_code": "empaCarne",
+    "description": "Empanadita de Carne"
+  },
+  {
+    "item_code": "sandwPollo",
+    "description": "Sandwich de Mila de Pollo"
+  },
+  {
+    "item_code": "milaCarne",
+    "description": "Milanesita de Carne"
+  },
+  {
+    "item_code": "pre",
+    "description": "Combo Premium"
+  },
+  {
+    "item_code": "sprite",
+    "description": "Sprite 2lts"
+  },
+  {
+    "item_code": "coca3",
+    "description": "Coca 3 lts"
+  },
+  {
+    "item_code": "clasico",
+    "description": "Combo Clasico"
+  },
+  {
+    "item_code": "fuga",
+    "description": "Canastita Fugazeta"
+  },
+  {
+    "item_code": "sandJYQ",
+    "description": "Sandw Jamon y Queso"
+  },
+  {
+    "item_code": "napo",
+    "description": "Canastita Napolitana"
+  },
+  {
+    "item_code": "croq",
+    "description": "Croquetas"
+  },
+  {
+    "item_code": "guara",
+    "description": "Fanta Guarana 2lts"
+  },
+  {
+    "item_code": "extra",
+    "description": "Extra"
+  },
+  {
+    "item_code": "naranja",
+    "description": "Fanta Naranja 2lts"
+  },
+  {
+    "item_code": "coca2",
+    "description": "Coca 2lts"
+  },
+  {
+    "item_code": "prod-test",
+    "description": "Producto Test"
+  }
+]
