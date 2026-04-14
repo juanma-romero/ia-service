@@ -1,5 +1,21 @@
 [
   {
+    "item_code": "zero",
+    "description": "Coca Zero 2 lts"
+  },
+  {
+    "item_code": "deli",
+    "description": "Delivery"
+  },
+  {
+    "item_code": "capre",
+    "description": "Canastita Capresse"
+  },
+  {
+    "item_code": "empaJYQ",
+    "description": "Empanadita de Jamon y Queso"
+  },
+  {
     "item_code": "empaPollo",
     "description": "Empanadita de Pollo"
   },
