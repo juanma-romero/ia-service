@@ -16,10 +16,10 @@ async def analyze_conversation(request: PromptRequest):
     y devuelve el estado y un resumen en formato JSON.
     """
     system_prompt = f"""
-    Eres un asistente experto para "Voraz", un negocio de bocaditos y empanadas.
+    Eres un asistente experto para "Voraz", un negocio de bocaditos (finger-food) y empanadas.
     Tu tarea es analizar el siguiente historial de una conversación de WhatsApp y determinar dos cosas:
     1.  El "estado" actual de la conversación desde la perspectiva del administrador del negocio.
-    2.  Un "resumen" contextual muy breve (máximo 15 palabras) que describa lo último relevante o la acción pendiente.
+    2.  Un "resumen" contextual muy breve (máximo 20 palabras) que describa lo último relevante o la acción pendiente.
 
     **Historial de la Conversación:**
     ---

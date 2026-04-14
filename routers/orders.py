@@ -23,7 +23,7 @@ def get_catalog():
 async def analyze_order(request: PromptRequest):
     """
     Analiza una solicitud de agendamiento estructurada hecha por un administrador,
-    mapeando informalidades ("hamburguesitas", "el de 198") a los item_code exactos de ERPNext.
+    mapeando informalidades ("hamburguesitas", "combo pre") a los item_code exactos de ERPNext.
     """
     catalog = get_catalog()
     catalog_str = json.dumps(catalog, ensure_ascii=False) if catalog else "Catálogo no disponible."
@@ -40,10 +40,9 @@ async def analyze_order(request: PromptRequest):
 
     **Instrucciones de extracción:**
     1. **Día y Hora:** Analiza el texto para deducir la fecha y hora de entrega. Ejemplo: "mañana 10 am" + la fecha actual proveída en el texto = Date ISO. Formato obligatorio: `YYYY-MM-DD HH:MM:00`.
-    2. **Monto Total:** Extrae el monto total del pedido (como un número, elimina símbolos o 'gs').
-    3. **Productos:** Para cada producto mencionado en el chat, extrae su cantidad, y OBLIGATORIAMENTE combínalo con un `item_code` válido de la lista anterior, guiándote por el nombre sugerido (description). Ignora los precios acá ya que el total va abarcativo.
+    2. **Productos:** Para cada producto mencionado en el chat, extrae su cantidad, y OBLIGATORIAMENTE combínalo con un `item_code` válido de la lista anterior, guiándote por el nombre sugerido (description). Ignora los precios acá ya que el total va abarcativo.
 
-    Si es un delivery/envío, y no hay item code de "delivery" explícito en tu catálogo, omítelo o usa un genérico si existe.
+    Si es un delivery/envío, el monto que se le pasa al cliente es el total del costo del delivery, a ese total lo dividimos por el costo unitario (5000 gs) y asi obtenemos la cantidad o unidades que debemos pasar junto con en el item_code "deli". Por ejemplo: "delivery por 20 mil gs" -> 20000 / 5000 = 4 -> "deli", 4. 
 
     **Resumen del Administrador:**
     ---
@@ -56,9 +55,9 @@ async def analyze_order(request: PromptRequest):
     {{
         "pedido_detectado": true,
         "fecha_hora_entrega": "2026-04-12 10:00:00",
-        "monto_total": 223000,
         "productos": [
-            {{ "item_code": "pre", "cantidad": 1 }}
+            {{ "item_code": "pre", "cantidad": 1 }},
+            {{ "item_code": "deli", "cantidad": 4 }}
         ]
     }}
     """
