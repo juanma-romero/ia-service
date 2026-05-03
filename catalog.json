@@ -1,11 +1,13 @@
 [
   {
     "item_code": "zero",
-    "description": "Coca Zero 2 lts"
+    "description": "Coca Zero 2 lts",
+    "alias": "zero, cero"
   },
   {
     "item_code": "deli",
-    "description": "Delivery"
+    "description": "Delivery",
+    "alias": "deli, envio, moto"
   },
   {
     "item_code": "capre",
@@ -21,15 +23,18 @@
   },
   {
     "item_code": "milaPollo",
-    "description": "Milanesa de Pollo"
+    "description": "Milanesa de Pollo",
+    "alias": "pechuga, mila pollo"
   },
   {
     "item_code": "pizeta",
-    "description": "Pizeta"
+    "description": "Pizeta",
+    "alias": "piza, pizza"
   },
   {
     "item_code": "mini",
-    "description": "Mini Burger"
+    "description": "Mini Burger",
+    "alias": "burger, hamburguesita"
   },
   {
     "item_code": "empaCarne",
@@ -53,11 +58,13 @@
   },
   {
     "item_code": "coca3",
-    "description": "Coca 3 lts"
+    "description": "Coca 3 lts",
+    "alias": "coca grande"
   },
   {
     "item_code": "clasico",
-    "description": "Combo Clasico"
+    "description": "Combo Clasico",
+    "alias": "combo eco, combo economico"
   },
   {
     "item_code": "fuga",
@@ -73,7 +80,8 @@
   },
   {
     "item_code": "croq",
-    "description": "Croquetas"
+    "description": "Croquetas",
+    "alias": "salchicha forrada, pancho forrado, coixinhas, bolitas de queso"
   },
   {
     "item_code": "guara",
