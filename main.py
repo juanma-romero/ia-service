@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Importar los routers que contienen los endpoints
-from routers import analysis, orders
+from routers import analysis, orders, agent
 
 # Crear la aplicación FastAPI
 app = FastAPI(
@@ -17,6 +17,7 @@ app = FastAPI(
 # Incluir los routers
 app.include_router(analysis.router, tags=["Analysis"])
 app.include_router(orders.router, tags=["Orders"])
+app.include_router(agent.router, tags=["Agent"])
 
 # Endpoint de "salud"
 @app.get("/", tags=["Status"])
