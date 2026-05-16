@@ -30,7 +30,7 @@ async def analyze_order(request: PromptRequest):
     
     system_prompt = f"""
     Eres un asistente experto para "Voraz". Tu única tarea es extraer información precisa 
-    de un resumen de administrador de WhatsApp que comienza con "Entonces te agendo:".
+    de un resumen de administrador de WhatsApp que comienza con "Entonces te agendo:" y validarla contra el historial del chat.
     
     Esta información viaja a un sistema ERP, por lo que NO debes adivinar productos. **DEBES obligatoriamente** mapear lo que pide el admin al `item_code` exacto listado en tu catálogo. Si no tiene sentido, repórtalo en tu cabeza pero usa el código más cercano válido.
 
@@ -38,13 +38,14 @@ async def analyze_order(request: PromptRequest):
     {catalog_str}
     -----------------------------------------
 
-    **Instrucciones de extracción:**
+    **Instrucciones de extracción y auditoría:**
     1. **Día y Hora:** Analiza el texto para deducir la fecha y hora de entrega. Ejemplo: "mañana 10 am" + la fecha actual proveída en el texto = Date ISO. Formato obligatorio: `YYYY-MM-DD HH:MM:00`.
     2. **Productos:** Para cada producto mencionado en el chat, extrae su cantidad, y OBLIGATORIAMENTE combínalo con un `item_code` válido de la lista anterior, guiándote por el nombre sugerido (description). Ignora los precios acá ya que el total va abarcativo.
     3. **Combos:** Los combos (Premium, Clasico) vienen con 100 unidades de bocaditos. Algunos clientes solicitan por ejemplo '130 unidades del combo premium' en ese caso se divide ese numero en 100 (en este caso de ejemplo 130/100=1.3), solo estos combos aceptan valores decimales. Usar punto (.) como separador de decimal (obligatorio para JSON).   
     4. **Delivery:** Si es un delivery/envío, el monto que se le pasa al cliente es el total del costo del delivery, a ese total lo dividimos por el costo unitario (5000 gs) y asi obtenemos la cantidad o unidades que debemos pasar junto con en el item_code "deli". Por ejemplo: "delivery por 20 mil gs" -> 20000 / 5000 = 4 -> "deli", 4. 
+    5. **Auditoría (Discrepancias):** Revisa el 'Historial Reciente' provisto. Compara lo que pidió el cliente con lo que el administrador anotó en 'Texto del Pedido'. Si hay una discrepancia clara (ejemplo 1: el cliente pidió "combo premium" y el admin anotó "combo clásico"; ejemplo 2: el cliente pidió para mañana y el admin anotó para el domingo), debes marcar "detectada": true y explicar el motivo en "motivo". Si todo está correcto, marca "detectada": false y "motivo": "".
 
-    **Resumen del Administrador:**
+    **Resumen del Administrador e Historial:**
     ---
     {request.prompt}
     ---
@@ -58,7 +59,11 @@ async def analyze_order(request: PromptRequest):
         "productos": [
             {{ "item_code": "pre", "cantidad": 1.3 }},
             {{ "item_code": "deli", "cantidad": 4 }}
-        ]
+        ],
+        "discrepancia": {{
+            "detectada": false,
+            "motivo": ""
+        }}
     }}
     """
 
