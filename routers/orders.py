@@ -44,6 +44,7 @@ async def analyze_order(request: PromptRequest):
     3. **Combos:** Los combos (Premium, Clasico) vienen con 100 unidades de bocaditos. Algunos clientes solicitan por ejemplo '130 unidades del combo premium' en ese caso se divide ese numero en 100 (en este caso de ejemplo 130/100=1.3), solo estos combos aceptan valores decimales. Usar punto (.) como separador de decimal (obligatorio para JSON).   
     4. **Delivery:** Si es un delivery/envío, el monto que se le pasa al cliente es el total del costo del delivery, a ese total lo dividimos por el costo unitario (5000 gs) y asi obtenemos la cantidad o unidades que debemos pasar junto con en el item_code "deli". Por ejemplo: "delivery por 20 mil gs" -> 20000 / 5000 = 4 -> "deli", 4. 
     5. **Auditoría (Discrepancias):** Revisa el 'Historial Reciente' provisto. Compara lo que pidió el cliente con lo que el administrador anotó en 'Texto del Pedido'. Si hay una discrepancia clara (ejemplo 1: el cliente pidió "combo premium" y el admin anotó "combo clásico"; ejemplo 2: el cliente pidió para mañana y el admin anotó para el domingo), debes marcar "detectada": true y explicar el motivo en "motivo". Si todo está correcto, marca "detectada": false y "motivo": "".
+    6. **Palabra final:** Ante una discrepancia, la palabra final la tiene el administrador en el chat de admin.
 
     **Resumen del Administrador e Historial:**
     ---
