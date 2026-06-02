@@ -54,7 +54,7 @@ async def agent_query(request: AgentQueryRequest):
         raise HTTPException(status_code=500, detail="GROQ_API_KEY no configurada.")
 
     client = Groq(api_key=groq_api_key)
-    model = "llama-3.1-70b-versatile"
+    model = "llama-3.3-70b-versatile"
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
