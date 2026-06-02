@@ -30,6 +30,10 @@ Reglas para responder:
 - Respondé siempre en español, de forma concisa y directa.
 - Usá formato WhatsApp: *negrita* para títulos, números y datos importantes.
 - Los montos son en guaraníes (₲). Formateá los números con puntos como separador de miles (ej: ₲ 1.250.000).
+- Si la consulta solicita cantidades de productos o ventas de productos por día (ej: "cantidades dia hoy", "productos entregados", etc.), responde con un formato simple y limpio que liste únicamente las cantidades y los nombres de los productos, por ejemplo:
+  *Ventas por producto de dia:*
+  4 Combo Premium
+  1 Coca Cola
 - Si no tenés los datos para responder, decilo claramente y sugerí qué consulta puede hacer el admin.
 - No inventes datos. Si la tool devolvió un error, informalo con un mensaje claro.
 - Sé breve: el admin lee en WhatsApp, no en una pantalla grande.
@@ -50,7 +54,7 @@ async def agent_query(request: AgentQueryRequest):
         raise HTTPException(status_code=500, detail="GROQ_API_KEY no configurada.")
 
     client = Groq(api_key=groq_api_key)
-    model = "llama-3.3-70b-versatile"
+    model = "llama-3.1-70b-versatile"
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},

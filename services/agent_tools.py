@@ -170,7 +170,8 @@ TOOL_DEFINITIONS = [
                 "Obtiene el detalle de ventas desagregado por producto: "
                 "qué productos se vendieron más, cantidades y montos por ítem. "
                 "Usá esta tool cuando pregunten por productos más vendidos, "
-                "cantidad de combos vendidos, ventas por producto, etc."
+                "cantidad de combos vendidos, ventas por producto, cantidades del día, "
+                "cantidades dia hoy, productos entregados, etc."
             ),
             "parameters": {
                 "type": "object",
