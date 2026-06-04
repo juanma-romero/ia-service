@@ -4,3 +4,5 @@ python-dotenv
 google-genai
 groq
 httpx
+mcp
+openai

@@ -100,7 +100,19 @@
     "description": "Coca 2lts"
   },
   {
-    "item_code": "prod-test",
-    "description": "Producto Test"
+    "item_code": "mbeju",
+    "description": "Mbeju"
+  },
+  {
+    "item_code": "payagua",
+    "description": "Payagua"
+  },
+  {
+    "item_code": "soo",
+    "description": "Chipa So'o"
+  },
+  {
+    "item_code": "mandio",
+    "description": "Pastel Mandio"
   }
 ]
