@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), "../../erp-service/.env"))
 
 # Path al index.js del MCP de ERPNext
-MCP_SERVER_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../erpnext-mcp-server/build/index.js"))
+MCP_SERVER_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../erp-service/erpnext-mcp-server/build/index.js"))
 
 class MCPManager:
     def __init__(self):
