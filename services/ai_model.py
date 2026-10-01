@@ -21,15 +21,15 @@ except Exception as e:
     client_groq = None
 
 async def generate_content_with_prompt(prompt: str):
-    # Intentar PRIMERO con Groq (Llama 3.3 70B Versatile)
+    # Intentar PRIMERO con Groq (openai/gpt-oss-120b)
     if client_groq:
         try:
-            print("[ia-service] Consultando a Groq (llama-3.3-70b-versatile)...")
+            print("[ia-service] Consultando a Groq (openai/gpt-oss-120b)...")
             chat_completion = client_groq.chat.completions.create(
                 messages=[
                     {"role": "user", "content": prompt}
                 ],
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-120b",
             )
             return chat_completion.choices[0].message.content
         except Exception as e:
@@ -40,9 +40,9 @@ async def generate_content_with_prompt(prompt: str):
         raise HTTPException(status_code=500, detail="Ni Groq ni Google AI están inicializados para procesar la petición.")
 
     try:
-        print("[ia-service] Consultando a Google Gemini (gemini-2.5-flash-lite) como salvavidas...")
+        print("[ia-service] Consultando a Google Gemini (gemini-flash-lite-latest   ) como salvavidas...")
         response = client_google.models.generate_content(
-            model="gemini-2.5-flash-lite",
+            model="gemini-flash-lite-latest",
             contents=prompt,
         )
         return response.text
