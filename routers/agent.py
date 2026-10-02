@@ -5,7 +5,7 @@ Expone el endpoint POST /agent-query.
 
 Flujo:
   1. El admin envía una consulta en lenguaje natural.
-  2. El LLM (Groq llama-3.3-70b-versatile) recibe la query + lista de tools disponibles.
+  2. El LLM (OpenRouter anthropic/claude-3.5-haiku) recibe la query + lista de tools disponibles.
   3. Si el LLM decide usar una tool, Python la ejecuta de forma controlada.
   4. El LLM recibe el resultado y formula una respuesta en lenguaje natural para WhatsApp.
 """
@@ -63,7 +63,7 @@ async def agent_query(request: AgentQueryRequest):
         base_url="https://openrouter.ai/api/v1",
         api_key=openrouter_api_key,
     )
-    model = "anthropic/claude-3.5-haiku"
+    model = "~deepseek/deepseek-flash-latest"
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
