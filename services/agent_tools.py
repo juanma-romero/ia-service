@@ -95,6 +95,58 @@ async def _get_pending_orders() -> dict:
         }
 
 
+import ast
+import operator
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CALCULADORA MATEMÁTICA SEGURA
+# ─────────────────────────────────────────────────────────────────────────────
+
+_MATH_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.FloorDiv: operator.floordiv,
+    ast.Mod: operator.mod,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+    ast.UAdd: operator.pos,
+}
+
+def _safe_calculate(expression: str) -> dict:
+    """Evalúa expresiones aritméticas de forma segura sin usar eval()."""
+    def _eval(node):
+        if isinstance(node, ast.Constant):
+            if isinstance(node.value, (int, float)):
+                return node.value
+            raise ValueError("Solo se permiten constantes numéricas.")
+        elif isinstance(node, ast.BinOp):
+            op_type = type(node.op)
+            if op_type in _MATH_OPERATORS:
+                left = _eval(node.left)
+                right = _eval(node.right)
+                return _MATH_OPERATORS[op_type](left, right)
+            raise ValueError(f"Operador binario no permitido: {op_type}")
+        elif isinstance(node, ast.UnaryOp):
+            op_type = type(node.op)
+            if op_type in _MATH_OPERATORS:
+                operand = _eval(node.operand)
+                return _MATH_OPERATORS[op_type](operand)
+            raise ValueError(f"Operador unario no permitido: {op_type}")
+        else:
+            raise ValueError(f"Sintaxis no permitida: {type(node).__name__}")
+
+    try:
+        # Reemplazar símbolos comunes y limpiar espacios
+        clean_expr = expression.replace("₲", "").replace("$", "").strip()
+        parsed = ast.parse(clean_expr, mode='eval')
+        result = _eval(parsed.body)
+        return {"expression": expression, "result": result}
+    except Exception as e:
+        return {"error": f"Error al calcular la expresión '{expression}': {str(e)}"}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DISPATCHER PRINCIPAL
 # ─────────────────────────────────────────────────────────────────────────────
@@ -117,6 +169,10 @@ async def execute_tool(tool_name: str, args: dict) -> Any:
 
         elif tool_name == "get_pending_orders":
             return await _get_pending_orders()
+
+        elif tool_name == "calculate":
+            expression = args.get("expression", "")
+            return _safe_calculate(expression)
 
         else:
             return {"error": f"Tool '{tool_name}' no reconocida."}
@@ -199,6 +255,27 @@ TOOL_DEFINITIONS = [
                 "type": "object",
                 "properties": {},
                 "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "calculate",
+            "description": (
+                "Calculadora matemática segura para realizar operaciones aritméticas exactas "
+                "(sumas, restas, multiplicaciones, divisiones, porcentajes, promedios). "
+                "Ejemplo de uso: '(150000 * 12) + 45000' o '2500000 * 0.15'."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "expression": {
+                        "type": "string",
+                        "description": "La expresión matemática a evaluar en formato estándar (ej: '120000 + 45000 * 2')."
+                    }
+                },
+                "required": ["expression"]
             }
         }
     }
