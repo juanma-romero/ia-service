@@ -11,13 +11,22 @@ from routers import analysis, orders, agent
 from contextlib import asynccontextmanager
 from services.mcp_client import mcp_manager
 
+# El MCP de ERPNext arranca un servidor Node y necesita un ERP real.
+# En local se apaga con ENABLE_MCP=false; en producción no se define, así que
+# el valor por defecto mantiene el comportamiento actual (encendido).
+ENABLE_MCP = os.getenv("ENABLE_MCP", "true").strip().lower() not in ("0", "false", "no", "off")
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Iniciando dependencias (MCP)...")
-    await mcp_manager.start()
+    if ENABLE_MCP:
+        print("Iniciando dependencias (MCP)...")
+        await mcp_manager.start()
+    else:
+        print("[MCP] Deshabilitado (ENABLE_MCP=false): el agente funcionará sin herramientas de ERP.")
     yield
-    print("Apagando dependencias (MCP)...")
-    await mcp_manager.stop()
+    if ENABLE_MCP:
+        print("Apagando dependencias (MCP)...")
+        await mcp_manager.stop()
 
 # Crear la aplicación FastAPI
 app = FastAPI(
