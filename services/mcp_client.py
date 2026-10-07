@@ -52,7 +52,8 @@ class MCPManager:
                 "function": {
                     "name": tool.name,
                     "description": tool.description or "",
-                    "parameters": tool.inputSchema
+                    "parameters": getattr(tool, "input_schema", None)
+                                  or getattr(tool, "inputSchema", None) or {}
                 }
             })
         return tools
