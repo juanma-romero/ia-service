@@ -9,6 +9,23 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "../../erp-service/.env"))
 # Path al index.js del MCP de ERPNext
 MCP_SERVER_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../erp-service/erpnext-mcp-server/build/index.js"))
 
+# ── El MCP es de SOLO LECTURA ────────────────────────────────────────────────
+# El agente de WhatsApp recibe únicamente estas herramientas. Las de escritura
+# (create_document, update_document, delete_document, submit_document,
+# cancel_document, call_method) quedan fuera por tres motivos, en capas:
+#   1. no se le ofrecen al LLM (get_tools_schema las filtra),
+#   2. no se pueden ejecutar aunque las pida (call_tool las rechaza),
+#   3. el ERP tampoco las permitiría: el MCP usa el usuario de consulta, que
+#      tiene rol de solo lectura (Voraz Lectura).
+HERRAMIENTAS_SOLO_LECTURA = {
+    "get_doctypes",
+    "get_doctype_fields",
+    "get_documents",
+    "get_document",
+    "run_report",
+}
+
+
 class MCPManager:
     def __init__(self):
         self.session = None
@@ -17,6 +34,20 @@ class MCPManager:
 
     async def start(self):
         env = os.environ.copy()
+
+        # Credenciales de CONSULTA (solo lectura) para el MCP, en vez de las de
+        # escritura que usa erp-service.
+        clave = os.getenv("MCP_ERPNEXT_API_KEY")
+        secreto = os.getenv("MCP_ERPNEXT_API_SECRET")
+        if clave and secreto:
+            env["ERPNEXT_API_KEY"] = clave
+            env["ERPNEXT_API_SECRET"] = secreto
+            print("[MCP] Usando credenciales de solo lectura (MCP_ERPNEXT_API_KEY).")
+        else:
+            print("[MCP] AVISO: faltan MCP_ERPNEXT_API_KEY/SECRET. El MCP usará las "
+                  "credenciales heredadas (de escritura). Cargá las de consulta en "
+                  "erp-service/.env.")
+
         
         server_params = StdioServerParameters(
             command="node",
@@ -47,6 +78,9 @@ class MCPManager:
         response = await self.session.list_tools()
         tools = []
         for tool in response.tools:
+            # Solo se exponen al LLM las herramientas de lectura
+            if tool.name not in HERRAMIENTAS_SOLO_LECTURA:
+                continue
             tools.append({
                 "type": "function",
                 "function": {
@@ -62,6 +96,13 @@ class MCPManager:
         if not self.session:
             raise Exception("MCP session not initialized")
         
+        # Barrera 2: aunque el LLM pida una herramienta de escritura, no se ejecuta.
+        if name not in HERRAMIENTAS_SOLO_LECTURA:
+            raise Exception(
+                f"Herramienta '{name}' no permitida: el MCP es de solo lectura "
+                f"(permitidas: {sorted(HERRAMIENTAS_SOLO_LECTURA)})"
+            )
+
         result = await self.session.call_tool(name, arguments=args)
         
         # Formatear la respuesta del MCP para devolverla como diccionario/texto
