@@ -89,3 +89,52 @@ async def analyze_order(request: PromptRequest):
         raise HTTPException(status_code=500, detail=f"La respuesta de la IA no pudo ser parseada como JSON: {response_text}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al contactar a Google AI: {str(e)}")
+
+
+@router.post("/classify-order-intent")
+async def classify_order_intent(request: PromptRequest):
+    """
+    Clasifica la respuesta de un cliente frente a una propuesta o agendamiento de pedido pendiente.
+    Devuelve una intención: CONFIRMAR, MODIFICAR, PEDIR_TIEMPO, o OTRO.
+    """
+    system_prompt = f"""
+    Eres el clasificador de intenciones de Voraz (comercio de bocaditos y empanadas en Paraguay).
+    Un administrador le propuso agendar un pedido a un cliente con la frase 'Entonces te agendo: ...'.
+    Debes clasificar el último mensaje (o contexto inmediato) del cliente en una de 4 intenciones:
+
+    1. "CONFIRMAR": El cliente aprueba o da el visto bueno al pedido.
+       Ejemplos típicos en Paraguay / WhatsApp:
+       - "dale", "dale dale", "dale porfa", "metele", "si", "sí", "sisi", "perfecto", "genial", "buenísimo", "está bien", "agendame nomas", "dale capo", "listo", pulgar arriba (👍), etc.
+
+    2. "MODIFICAR": El cliente quiere cambiar cantidades, productos, horario o lugar de entrega.
+       Ejemplos:
+       - "cambiame por empanaditas de carne", "mejor 150 unidades", "a las 12 hs mejor", "no le pongas cebolla", "agregale una coca".
+
+    3. "PEDIR_TIEMPO": El cliente pide esperar, consultar con alguien o responder más tarde.
+       Ejemplos:
+       - "bancame un toque", "te confirmo en un rato", "voy a consultar con mi marido/esposa", "dejame ver bien y te aviso", "dame 10 minutos".
+
+    4. "OTRO": Preguntas no concluyentes, dudas sobre medios de pago, o mensajes no relacionados.
+
+    --- Contexto y mensaje del cliente ---
+    {request.prompt}
+    -------------------------------------
+
+    **Formato de Respuesta Obligatorio:**
+    ÚNICAMENTE un objeto JSON sin markdown con la estructura:
+    {{
+        "intent": "CONFIRMAR" | "MODIFICAR" | "PEDIR_TIEMPO" | "OTRO",
+        "confianza": 0.0 a 1.0,
+        "motivo": "breve explicación en 1 frase"
+    }}
+    """
+
+    response_text = ""
+    try:
+        response_text = await ai_model.generate_content_with_prompt(system_prompt)
+        cleaned_text = response_text.strip().replace("```json", "").replace("```", "")
+        return json.loads(cleaned_text)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail=f"La respuesta de la IA no pudo ser parseada como JSON: {response_text}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al contactar a Google AI: {str(e)}")
