@@ -27,9 +27,9 @@
     "alias": "pechuga, mila pollo"
   },
   {
-    "item_code": "pizeta",
+    "item_code": "pizeta-final",
     "description": "Pizeta",
-    "alias": "piza, pizza"
+    "alias": "piza, pizza, pizeta"
   },
   {
     "item_code": "mini",
